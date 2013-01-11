@@ -13,7 +13,7 @@
 		  $("#go").click(function(){
 			 		playTurn(); 
 			});			
-			});	
+	  });	
 
 		function game_outcome(player, computer){
 				var outcomes = {
@@ -29,46 +29,58 @@
 			return "paper";		
 		}
 
+	  function update_score(outcome){
+						console.log("outcome " + outcome);
+						if (outcome == "win") {
+							won++;
+							player_dough += 10;
+							computer_dough -= 10;
+						}
+
+						if (outcome == "lose"){
+							player_dough -= 10;
+							computer_dough += 10;
+						}
+		}
 
 		 function playTurn(){
- 				 var player, computer, message, outcome, color, record, money_status;
-				 message = "";
+ 				 var player, computer, outcome;
+				 tries++;
+				 
+				 player = $("input[name=player-move]:checked").val();
+				 computer = simpletonStrategy();
+         outcome = game_outcome(player, computer);
+					
+				 update_score(outcome);
+				 update_display(outcome, player, computer); 
+		 }
+
+		function update_display(outcome, player, computer){
+				var color, game_outcome;
          color = {
 				 	"win"  : "green",
 					"lose" : "red",
 					"tie"  : "black"
 				 }
-
-				 player = $("input[name=player-move]:checked").val();
-				 computer = simpletonStrategy();
-         outcome = game_outcome(player, computer);
-					
-				 tries++;
-
-				 if (outcome == "win") {
-						won++;
-						player_dough += 10;
-						computer_dough -= 10;
+			   
+				 game_outcome = "You " + outcome;
+	 			 
+				 if (player_dough <= 0 || computer_dough <= 0){
+						if (player_dough <= 0){
+							message = "Game Over. Loser";	
+						}
+						else {
+							message = "You defeated this oponent";
+						}
+				 		$("#final-outcome").text(message);
 				 }
 
-				 if (outcome == "lose"){
-						player_dough -= 10;
-						computer_dough += 10;
-				 }
-
-				 message = "You " + outcome;
-          				 
 				 $("#computer-move").text(computer);
-				 $("#outcome").text(message).attr("style", "color: "+ color[outcome]);
-
-
-				 record = "In " + tries + " number of games, you have won "+ won;
-				 money_status = "You have $" + player_dough + "  computer has $" + computer_dough;
+				 $("#outcome").text(game_outcome).attr("style", "color: "+ color[outcome]);
+				 console.log("p " + player_dough + " c " + computer_dough);
 				 $("#player-money").text(player_dough);
 				 $("#computer-money").text(computer_dough);
 				 
-				 $("#record").text(record);
-				 $("#money-record").text(money_status);
 		 }
 
 	</script>
@@ -110,7 +122,7 @@
  				<tr>
 								<td>$<span id="player-money">100</span></td>
 								<td>$<span id="computer-money">100</span></td>
-							  <td> </td>
+								<td><span id="final-outcome"></span></td>
 				</tr>		
 		 </table>	
 
