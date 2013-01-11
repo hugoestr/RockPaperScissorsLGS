@@ -1,0 +1,50 @@
+<html>
+
+ 	<script type="text/javascript" src="lib/jquery-1.8.0.js"></script>	
+	<script type="text/javascript">
+		function game_outcome(player, computer){
+				var outcomes = {
+					"paper" : {"rock" : "win" , "paper": "tie", "scissors": "lose" },
+					"rock" : {"rock" : "tie" , "paper": "lose", "scissors": "win" },
+					"scissors" : {"rock" : "lose" , "paper": "win", "scissors": "tie" },
+				};
+
+				return outcomes[player][computer];		
+		 }
+
+		function simpletonStrategy(){
+			return "paper";		
+		}
+
+		$(document).ready(function(){
+		  $("#go").click(function(){
+			   var player, computer, message, outcome, color;
+				 message = "";
+         color = {
+				 	"win"  : "green",
+					"lose" : "red",
+					"tie"  : "black"
+				 }
+
+				 player = $("input[name=player-move]:checked").val();
+				 computer = simpletonStrategy();
+         outcome = game_outcome(player, computer);
+
+				 message = "You " + outcome;
+          				 
+				 $("#outcome").text(message).attr("style", "color: "+ color[outcome]);
+			});			
+		});
+		
+	</script>
+	<body>
+		<h1>Rock Paper Scissors</h1>
+		<input type="radio" name="player-move" value="rock">Rock</input>
+		<input type="radio" name="player-move" value="paper">Paper</input>
+		<input type="radio" name="player-move" value="scissors">Scissors</input>
+		
+		<input id="go" type="button" value="go" />
+		
+		<div id="outcome"/>
+	</body>
+</html>
