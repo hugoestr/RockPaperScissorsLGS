@@ -64,23 +64,55 @@
 
 				 record = "In " + tries + " number of games, you have won "+ won;
 				 money_status = "You have $" + player_dough + "  computer has $" + computer_dough;
+				 $("#player-money").text(player_dough);
+				 $("#computer-money").text(computer_dough);
+				 
 				 $("#record").text(record);
 				 $("#money-record").text(money_status);
 		 }
 
 	</script>
+
+	<style type="text/css">
+					table, td, th, tr {
+						border-style: solid;
+						border-width: 2px;
+					}
+
+					
+
+	</style>
 	<body>
 		<h1>Rock Paper Scissors</h1>
-		<input type="radio" name="player-move" value="rock">Rock</input>
-		<input type="radio" name="player-move" value="paper">Paper</input>
-		<input type="radio" name="player-move" value="scissors">Scissors</input>
-		
-		<input id="go" type="button" value="go" /> vs. <span id="computer-move" >computer move</span>
-		
-		<div id="outcome">outcome</div>
+		<p>Jonathan Scrouge was appointed by your mother to give you your inheritance at her death. But instead the man stold it. He has a weakness, though: he is addicted to Rock Paper Scissors. He has promised to give you back the inheritance if you beat him at high stakes RPS match, if you can come up with the money to play against him.</p>
+		<p>You only have $100 dollars to your name. The only way out is play Rock Paper Scissors hustlers and attempt to earn enough money to challenge Jonathan Scrouge, win back your inheritance, and gain back your honor.</p>
+		<p>But be careful! If you lose your all of your money, you will live in shame for the rest of your life.</p>
+		<table>
+						<tr>
+						<th colspan=3" >Moves</th>
+						</tr>	
+				 <tr>
+					<th>Player</th>
+					<th>Computer</th>
+					<th>Outcome</th>
+				 </tr>
 
-		<div id="record"></div>
-		<div id="money-record">You have $100 computer has $100 </div>
+				 <tr>
+								 <td>
+										<input type="radio" name="player-move" value="rock">Rock</input>
+										<input type="radio" name="player-move" value="paper">Paper</input>
+										<input type="radio" name="player-move" value="scissors">Scissors</input>
+										<input id="go" type="button" value="go" />
+						</td>
+						<td><span id="computer-move" ></span></td>
+						<td><div id="outcome">outcome</div></td>
+		</tr>
+ 				<tr>
+								<td>$<span id="player-money">100</span></td>
+								<td>$<span id="computer-money">100</span></td>
+							  <td> </td>
+				</tr>		
+		 </table>	
 
 	  <p>&copy; Copyright Lame Games Studios 2013. All rights reserved </p>
 	</body>
