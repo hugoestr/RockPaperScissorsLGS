@@ -2,8 +2,10 @@
 
  	<script type="text/javascript" src="lib/jquery-1.8.0.js"></script>	
 	<script type="text/javascript">
-		var tries, won;
-
+		var tries, won, player_dough, computer_dough;
+		
+		player_dough = 100;
+		computer_dough = 100;
 		tries = 0;
 		won = 0;
 
@@ -29,7 +31,7 @@
 
 
 		 function playTurn(){
- 				 var player, computer, message, outcome, color, record;
+ 				 var player, computer, message, outcome, color, record, money_status;
 				 message = "";
          color = {
 				 	"win"  : "green",
@@ -42,8 +44,16 @@
          outcome = game_outcome(player, computer);
 					
 				 tries++;
+
 				 if (outcome == "win") {
-					won++ 
+						won++;
+						player_dough += 10;
+						computer_dough -= 10;
+				 }
+
+				 if (outcome == "lose"){
+						player_dough -= 10;
+						computer_dough += 10;
 				 }
 
 				 message = "You " + outcome;
@@ -53,7 +63,9 @@
 
 
 				 record = "In " + tries + " number of games, you have won "+ won;
+				 money_status = "You have $" + player_dough + "  computer has $" + computer_dough;
 				 $("#record").text(record);
+				 $("#money-record").text(money_status);
 		 }
 
 	</script>
@@ -68,6 +80,7 @@
 		<div id="outcome">outcome</div>
 
 		<div id="record"></div>
+		<div id="money-record">You have $100 computer has $100 </div>
 
 	  <p>&copy; Copyright Lame Games Studios 2013. All rights reserved </p>
 	</body>
