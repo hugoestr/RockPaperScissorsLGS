@@ -39,7 +39,14 @@
 			});
 
 		  $("#go").click(function(){
-					if (rps.playing){
+					rps.game_bet = parseInt($("#bet-amount").val());
+					run_turn(rps);
+				
+			});			
+		});	
+
+    function run_turn(rps){
+					if (rps.playing && rps.game_bet != 0){
 				  	var player = $("input[name=player-move]:checked").val();
 			 			rps.playTurn(player); 
 						update_display(rps);
@@ -48,8 +55,10 @@
 							$("#start-game").toggle();
 						}
 					}
-			});			
-	  });	
+					else if (rps.playing) {
+						alert("You must enter a bet to play");
+				  }
+		}
 
     function clear_displays(){
 				 $("#computer-move").text("");
@@ -87,6 +96,8 @@
 						$("#final-outcome").text(message);
 				 }
 
+				 update_match_and_game(rps);
+				
 				 $("#computer-move").text(rps.computer);
 				 $("#outcome").text(game_outcome).attr("style", "color: "+ color[rps.outcome]);
 				 
@@ -94,6 +105,14 @@
 				 $("#computer-money").text(rps.computer_money);
 				 
 		 }
+
+			function update_match_and_game(rps){
+ 				$("#player-wins").text(rps.match_wins);
+				 $("#computer-wins").text(rps.match_losses);
+				 
+				 $("#player-game-wins").text(rps.point_wins);
+				 $("#computer-game-wins").text(rps.point_losses);
+			}
 
 	</script>
 
@@ -105,7 +124,7 @@
 		<p>You only have $100 dollars to your name. The only way out is play Rock Paper Scissors hustlers and attempt to earn enough money to challenge Jonathan Scrouge, win back your inheritance, and gain back your honor.</p>
 		<p>But be careful! If you lose your all of your money, you will live in shame for the rest of your life.</p>
 
-		<p>Hey, you! Let's play best of five. Place your match bet <label></label><input type="text" value="" />
+		<p>Hey, you! Let's play a best of three of three, each try $10. Place your point bet <label></label><input id="bet-amount" type="text" value="" />
 		</p>
 		
 		<table>
@@ -127,11 +146,17 @@
 						<td><span id="computer-move" ></span></td>
 						<td><div id="outcome">outcome</div></td>
 		</tr>
+		 <tr>
+						<td>Game</td>
+						<td><span id="player-wins"></span></td>
+						<td><span id="computer-wins"></span></td>
+						<td><span></span></td>
+		</tr> 
 		<tr>
-						<td>Match</td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td>Points</td>
+						<td><span id="player-game-wins"></span></td>
+						<td><span id="computer-game-wins"></span></td>
+						<td><span></span></td>
 			</tr>
 		<tr>
 								<td>Money</td>
