@@ -1,20 +1,64 @@
 <html>
 
+				
+	<style type="text/css">
+					table, td, th, tr {
+						border-style: solid;
+						border-width: 2px;
+					}
+					
+					#playing-area {
+						display: none;
+					}
+					
+
+	</style>
+
+
  	<script type="text/javascript" src="lib/jquery-1.8.0.js"></script>	
  	<script type="text/javascript" src="src/rps.js"></script>	
 	<script type="text/javascript">
 	
 		$(document).ready(function(){
 			var rps = new RockPaperScissors();
+			
+			$("#start-game").click(function(){
+				rps.reset();	
+
+				clear_displays();
+				update_display(rps);
+				
+				var screen = $("#playing-area").css("display");
+				
+				console.log("the value is "+ screen);
+				if (screen == "none"){
+					$("#playing-area").toggle();
+				}
+				
+				$(this).toggle();				
+			});
 
 		  $("#go").click(function(){
 					if (rps.playing){
 				  	var player = $("input[name=player-move]:checked").val();
 			 			rps.playTurn(player); 
 						update_display(rps);
+
+						if (!rps.playing){
+							$("#start-game").toggle();
+						}
 					}
 			});			
 	  });	
+
+    function clear_displays(){
+				 $("#computer-move").text("");
+				 $("#outcome").text("");
+				 
+				 $("#player-money").text("");
+				 $("#computer-money").text("");	
+				 $("#final-outcome").text("");
+		}
 
 		function update_display(rps){
 				 var color, game_outcome, message;
@@ -26,7 +70,7 @@
 					"tie"  : "black"
 				 }
 			   
-				 game_outcome = "You " + rps.outcome;
+				 game_outcome = (rps.outcome) ? "You " + rps.outcome : "";
 	 			  
 				 switch(rps.winner){
 								 case "player":
@@ -53,17 +97,10 @@
 
 	</script>
 
-	<style type="text/css">
-					table, td, th, tr {
-						border-style: solid;
-						border-width: 2px;
-					}
-
-					
-
-	</style>
 	<body>
 		<h1>Rock Paper Scissors</h1>
+		<input id="start-game" type="button" value="Start Game" />
+		<div id="playing-area">
 		<p>Jonathan Scrouge was appointed by your mother to give you your inheritance at her death. But instead the man stold it. He has a weakness, though: he is addicted to Rock Paper Scissors. He has promised to give you back the inheritance if you beat him at high stakes RPS match, if you can come up with the money to play against him.</p>
 		<p>You only have $100 dollars to your name. The only way out is play Rock Paper Scissors hustlers and attempt to earn enough money to challenge Jonathan Scrouge, win back your inheritance, and gain back your honor.</p>
 		<p>But be careful! If you lose your all of your money, you will live in shame for the rest of your life.</p>
@@ -93,7 +130,7 @@
 								<td><span id="final-outcome"></span></td>
 				</tr>		
 		 </table>	
-
+		</div>
 	  <p>&copy; Copyright Lame Games Studios 2013. All rights reserved </p>
 	</body>
 </html>

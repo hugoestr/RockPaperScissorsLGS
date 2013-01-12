@@ -10,6 +10,19 @@
 			this.won = 0;
 		}
 
+
+    RockPaperScissors.prototype.reset = function(){
+			this.winner = false;
+			this.playing = true;
+			
+			this.player_money = 100;
+			this.computer_money = 100;
+			this.outcome = "";
+			
+			this.tries = 0;
+			this.won = 0;
+		}
+
 		RockPaperScissors.prototype.playTurn = function(player){
 				 var computer, outcome, that;
 				 this.tries++;
