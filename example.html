@@ -94,10 +94,13 @@
 			   
 				 if (message != ""){
 						$("#final-outcome").text(message);
+				 } else {
+
 				 }
 
 				 update_match_and_game(rps);
 				
+				 $("#round").text(rps.round);
 				 $("#computer-move").text(rps.computer);
 				 $("#outcome").text(game_outcome).attr("style", "color: "+ color[rps.outcome]);
 				 
@@ -124,9 +127,9 @@
 		<p>You only have $100 dollars to your name. The only way out is play Rock Paper Scissors hustlers and attempt to earn enough money to challenge Jonathan Scrouge, win back your inheritance, and gain back your honor.</p>
 		<p>But be careful! If you lose your all of your money, you will live in shame for the rest of your life.</p>
 
-		<p>Hey, you! Let's play a best of three of three, each try $10. Place your point bet <label></label><input id="bet-amount" type="text" value="" />
+		<p>Hey, you! Let's play a best of three of three, each try $10. Place your point bet <label></label><input id="bet-amount" type="text" value="0" />
 		</p>
-		
+		<h2>Opponent <span id="round"></span></h2>		
 		<table>
 				<tr>
 					<th></th>

@@ -1,19 +1,12 @@
 	function RockPaperScissors(){
-			this.winner = false;
-			this.playing = true;
-			
-			this.player_money = 100;
-			this.computer_money = 100;
-			this.outcome = "";
-			
-			this.tries = 0;
-			this.won = 0;
+			this.reset();
 		}
 
 
     RockPaperScissors.prototype.reset = function(){
 			this.winner = false;
 			this.playing = true;
+			this.round = 1;
 			
 			this.player_money = 100;
 			this.computer_money = 100;
@@ -105,7 +98,12 @@
 					rps.point_losses = 0;
 				}
 			}
-			
+		
+		  function get_another_oponent(rps){
+				rps.computer_money = 100;
+				rps.round++;
+			}
+
 			 function check_winning_conditions(rps){
  					if (rps.player_money <= 0 || rps.computer_money <= 0){
 						if (rps.player_money <= 0){
@@ -113,9 +111,10 @@
 						}
 						else {
 						  rps.winner = "player";
+							get_another_oponent(rps);
 						}
 
-						if (rps.winnmer != ""){
+						if (rps.winner != "player"){
 							rps.playing = false;
 						}
 				 }
