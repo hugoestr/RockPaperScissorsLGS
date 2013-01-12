@@ -1,85 +1,53 @@
 <html>
 
  	<script type="text/javascript" src="lib/jquery-1.8.0.js"></script>	
+ 	<script type="text/javascript" src="src/rps.js"></script>	
 	<script type="text/javascript">
-		var tries, won, player_dough, computer_dough;
-		
-		player_dough = 100;
-		computer_dough = 100;
-		tries = 0;
-		won = 0;
-
+	
 		$(document).ready(function(){
+			var rps = new RockPaperScissors();
+
 		  $("#go").click(function(){
-			 		playTurn(); 
+					if (rps.playing){
+				  	var player = $("input[name=player-move]:checked").val();
+			 			rps.playTurn(player); 
+						update_display(rps);
+					}
 			});			
 	  });	
 
-		function game_outcome(player, computer){
-				var outcomes = {
-					"paper" : {"rock" : "win" , "paper": "tie", "scissors": "lose" },
-					"rock" : {"rock" : "tie" , "paper": "lose", "scissors": "win" },
-					"scissors" : {"rock" : "lose" , "paper": "win", "scissors": "tie" },
-				};
-
-				return outcomes[player][computer];		
-		 }
-
-		function simpletonStrategy(){
-			return "paper";		
-		}
-
-	  function update_score(outcome){
-						console.log("outcome " + outcome);
-						if (outcome == "win") {
-							won++;
-							player_dough += 10;
-							computer_dough -= 10;
-						}
-
-						if (outcome == "lose"){
-							player_dough -= 10;
-							computer_dough += 10;
-						}
-		}
-
-		 function playTurn(){
- 				 var player, computer, outcome;
-				 tries++;
+		function update_display(rps){
+				 var color, game_outcome, message;
+				 massage = "";
 				 
-				 player = $("input[name=player-move]:checked").val();
-				 computer = simpletonStrategy();
-         outcome = game_outcome(player, computer);
-					
-				 update_score(outcome);
-				 update_display(outcome, player, computer); 
-		 }
-
-		function update_display(outcome, player, computer){
-				var color, game_outcome;
-         color = {
+				 color = {
 				 	"win"  : "green",
 					"lose" : "red",
 					"tie"  : "black"
 				 }
 			   
-				 game_outcome = "You " + outcome;
-	 			 
-				 if (player_dough <= 0 || computer_dough <= 0){
-						if (player_dough <= 0){
-							message = "Game Over. Loser";	
-						}
-						else {
-							message = "You defeated this oponent";
-						}
-				 		$("#final-outcome").text(message);
+				 game_outcome = "You " + rps.outcome;
+	 			  
+				 switch(rps.winner){
+								 case "player":
+										message = "You defeated this opponent";		 
+										break;
+								 case "computer":
+										message = "Game over, loser.";		 
+										break;
+						default:
+							break;
+				 } 
+			   
+				 if (message != ""){
+						$("#final-outcome").text(message);
 				 }
 
-				 $("#computer-move").text(computer);
-				 $("#outcome").text(game_outcome).attr("style", "color: "+ color[outcome]);
-				 console.log("p " + player_dough + " c " + computer_dough);
-				 $("#player-money").text(player_dough);
-				 $("#computer-money").text(computer_dough);
+				 $("#computer-move").text(rps.computer);
+				 $("#outcome").text(game_outcome).attr("style", "color: "+ color[rps.outcome]);
+				 
+				 $("#player-money").text(rps.player_money);
+				 $("#computer-money").text(rps.computer_money);
 				 
 		 }
 
@@ -113,7 +81,7 @@
 								 <td>
 										<input type="radio" name="player-move" value="rock">Rock</input>
 										<input type="radio" name="player-move" value="paper">Paper</input>
-										<input type="radio" name="player-move" value="scissors">Scissors</input>
+										<input type="radio" name="player-move" value="scissors" checked="checked">Scissors</input>
 										<input id="go" type="button" value="go" />
 						</td>
 						<td><span id="computer-move" ></span></td>
