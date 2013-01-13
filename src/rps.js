@@ -2,7 +2,6 @@
 			this.reset();
 		}
 
-
     RockPaperScissors.prototype.reset = function(){
 			this.winner = false;
 			this.playing = true;
@@ -21,16 +20,23 @@
 
 			this.point_losses = 0;
 			this.point_wins = 0;
+
+			this.opponents = [ 
+			{},
+			{ name: "Tony",
+				play : function(){
+					return "paper";					
+				}
+			}
+			];
+
 		}
 
 		RockPaperScissors.prototype.playTurn = function(player){
-				 var computer, outcome, that;
-				 
-				 this.computer = simpletonStrategy();
+				 this.computer = this.opponents[this.round].play();
          this.outcome = game_outcome(player, this.computer);
 				 
-			   that = this;	 
-				 update_score(that);
+				 update_score(this);
 				 check_winning_conditions(this);	 
 
 
@@ -43,11 +49,7 @@
 
 				return outcomes[player][computer];		
 			 }
-			 
-			 function simpletonStrategy(){
-				return "paper";		
-			}
-			 
+			 			 
 			 function update_score(rps){
 						if (rps.outcome == "win") {
 							rps.match_wins++;
@@ -109,15 +111,21 @@
 						if (rps.player_money <= 0){
 							rps.winner = "computer";
 						}
-						else {
-						  rps.winner = "player";
-							get_another_oponent(rps);
+						else {			
+							if (rps.round >= (rps.opponents.length - 1)) {
+									rps.winner = "player";
+									rps.playing = false;
+							}else {			
+								get_another_oponent(rps);
+							}
 						}
 
 						if (rps.winner != "player"){
 							rps.playing = false;
 						}
 				 }
+				 
+				
 			 }
 		}
 	
