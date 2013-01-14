@@ -5,7 +5,7 @@
     RockPaperScissors.prototype.reset = function(){
 			this.winner = false;
 			this.playing = true;
-			this.round = 1;
+			this.round = 0;
 			
 			this.player_money = 100;
 			this.computer_money = 100;
@@ -22,12 +22,19 @@
 			this.point_wins = 0;
 
 			this.opponents = [ 
-			{},
 			{ name: "Tony",
 				play : function(){
 					return "paper";					
 				}
-			}
+			},
+			{ name: "Mikey",
+				play : function(){
+					var list = ["rock", "paper", "scissors"];
+				 	var index = _.random(0, list.length); 	
+
+					return list[index];
+				}
+			},
 			];
 
 		}
@@ -112,7 +119,7 @@
 							rps.winner = "computer";
 						}
 						else {			
-							if (rps.round >= (rps.opponents.length - 1)) {
+							if ((rps.round + 1) > rps.opponents.length) {
 									rps.winner = "player";
 									rps.playing = false;
 							}else {			
@@ -120,12 +127,10 @@
 							}
 						}
 
-						if (rps.winner != "player"){
+						if (rps.winner == "computer"){
 							rps.playing = false;
 						}
 				 }
-				 
-				
 			 }
 		}
 	
